@@ -55,9 +55,17 @@
     img { max-width: 100%; display: block; }
     a { text-decoration: none; color: inherit; }
     ul { list-style: none; }
+    /* テキスト系要素は必ず折り返す */
+    p, span, div, h1, h2, h3, h4, h5, h6, li, cite, strong, em {
+      overflow-wrap: break-word;
+      min-width: 0;
+    }
 
     /* ===== UTILITY ===== */
     .container { width: 100%; max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+    /* スマホのみ改行 / PC非表示 */
+    .sp-only { display: none; }
+    @media (max-width: 640px) { .sp-only { display: inline; } }
     .section-label {
       display: inline-block;
       font-size: 11px;
@@ -100,15 +108,15 @@
       cursor: pointer;
       transition: all var(--transition);
       text-decoration: none;
-      white-space: nowrap;
-      line-height: 1;
+      line-height: 1.3;
+      text-align: center;
     }
     .btn-primary {
       background: var(--cta-red);
       color: var(--white);
-      padding: 18px 36px;
+      padding: 16px 32px;
       border-radius: var(--r-full);
-      font-size: 1.05rem;
+      font-size: 1rem;
       box-shadow: 0 4px 16px rgba(192,57,43,.35);
     }
     .btn-primary:hover {
@@ -119,9 +127,9 @@
     .btn-line {
       background: #06c755;
       color: var(--white);
-      padding: 18px 36px;
+      padding: 16px 32px;
       border-radius: var(--r-full);
-      font-size: 1.05rem;
+      font-size: 1rem;
       box-shadow: 0 4px 16px rgba(6,199,85,.3);
     }
     .btn-line:hover {
@@ -133,64 +141,75 @@
       background: transparent;
       color: var(--green-deep);
       border: 2px solid var(--green-main);
-      padding: 14px 28px;
+      padding: 12px 24px;
       border-radius: var(--r-full);
-      font-size: .95rem;
+      font-size: .9rem;
     }
     .btn-outline:hover {
       background: var(--green-main);
       color: var(--white);
     }
-    .btn-lg { padding: 22px 44px; font-size: 1.15rem; }
-    .btn-sm { padding: 12px 22px; font-size: .88rem; }
+    .btn-lg { padding: 18px 36px; font-size: 1.05rem; }
+    .btn-sm { padding: 10px 18px; font-size: .85rem; }
 
-    /* ===== HEADER ===== */
-    .header {
+    /* ===== SITE-HEADER WRAPPER ===== */
+    .site-header {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 1000;
-      background: rgba(255,255,255,.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(0,0,0,.08);
       transition: box-shadow var(--transition);
     }
-    .header.scrolled { box-shadow: var(--shadow-md); }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-      gap: 16px;
-    }
-    .logo {
-      font-family: var(--serif);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--green-deep);
-      flex-shrink: 0;
-    }
-    .logo span { font-size: .7rem; font-weight: 400; color: var(--text-light); display: block; letter-spacing: .05em; }
-    .header-nav { display: flex; gap: 24px; align-items: center; }
-    .header-nav a { font-size: .88rem; color: var(--text-mid); font-weight: 500; }
-    .header-nav a:hover { color: var(--green-main); }
-    .header-cta { display: flex; gap: 10px; align-items: center; flex-shrink: 0; }
-    .header-cta .btn { padding: 10px 20px; font-size: .85rem; }
+    .site-header.scrolled { box-shadow: var(--shadow-md); }
 
     /* ===== ANNOUNCEMENT BAR ===== */
     .announce {
       background: var(--green-deep);
       color: var(--white);
       text-align: center;
-      padding: 10px 16px;
-      font-size: .85rem;
+      padding: 8px 16px;
+      font-size: .82rem;
       font-weight: 500;
-      letter-spacing: .03em;
+      letter-spacing: .02em;
+      overflow: hidden;
+      max-height: 80px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      transition: max-height .3s ease, padding .3s ease, opacity .3s ease;
     }
     .announce strong { color: var(--gold-light); }
+    .site-header.scrolled .announce { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: rgba(255,255,255,.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,.08);
+    }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+      gap: 16px;
+    }
+    .logo {
+      font-family: var(--serif);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--green-deep);
+      flex-shrink: 0;
+      line-height: 1.2;
+    }
+    .logo span { font-size: .65rem; font-weight: 400; color: var(--text-light); display: block; letter-spacing: .05em; }
+    .header-nav { display: flex; gap: 24px; align-items: center; }
+    .header-nav a { font-size: .88rem; color: var(--text-mid); font-weight: 500; }
+    .header-nav a:hover { color: var(--green-main); }
+    .header-cta { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .header-cta .btn { padding: 9px 18px; font-size: .83rem; }
 
     /* ===== HERO / FIRST VIEW ===== */
     .hero {
-      min-height: 100vh;
+      min-height: 100svh;
       background: linear-gradient(135deg, #0f2610 0%, #1a3a1a 40%, #2d5a1e 100%);
       position: relative;
       display: flex;
@@ -287,6 +306,8 @@
     .hero-cta-note {
       font-size: .8rem;
       color: rgba(255,255,255,.55);
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     /* Hero Right: 信頼カード */
     .hero-card {
@@ -349,6 +370,8 @@
       color: var(--white);
       font-size: .95rem;
       font-weight: 700;
+      word-break: keep-all;
+      overflow-wrap: break-word;
     }
     .urgency-text strong { font-size: 1.1rem; }
     .urgency .btn { padding: 10px 24px; font-size: .9rem; background: var(--white); color: var(--cta-red); border-radius: var(--r-full); font-weight: 700; }
@@ -851,53 +874,144 @@
       transform: none;
     }
 
-    /* ===== RESPONSIVE ===== */
+    /* ===== RESPONSIVE: タブレット ===== */
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+      /* ヘッダー */
+      .header-nav { display: none; }
+      .header-cta .btn-outline { display: none; }
+      .logo { font-size: 1.05rem; }
+
+      /* ヒーロー */
+      .hero { padding-bottom: 60px; min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; gap: 0; }
       .hero-card { display: none; }
+
+      /* グリッド系 */
       .features-grid { grid-template-columns: 1fr; }
-      .crops-grid { grid-template-columns: 1fr; }
+      .crops-grid { grid-template-columns: 1fr 1fr; }
       .voice-grid { grid-template-columns: 1fr; }
-      .story-inner { grid-template-columns: 1fr; gap: 36px; }
+      .story-inner { grid-template-columns: 1fr; gap: 32px; }
       .story-image { order: -1; }
-      .story-image img { height: 280px; }
+      .story-image img { height: 240px; }
       .proof-grid { grid-template-columns: repeat(2, 1fr); }
       .contact-options { grid-template-columns: 1fr; }
       .contact-box { padding: 36px 24px; }
-      .header-nav { display: none; }
-      .header-cta .btn-outline { display: none; }
+
+      /* スティッキーCTA */
       .sticky-cta { display: flex; }
-      body { padding-bottom: 80px; }
+      body { padding-bottom: 76px; }
     }
 
+    /* ===== RESPONSIVE: スマホ ===== */
     @media (max-width: 640px) {
+      .container { padding: 0 16px; }
+
+      /* ヘッダー：ロゴとCTAだけに絞る */
+      .header-inner { height: 54px; }
+      .logo { font-size: .95rem; }
+      .logo span { display: none; }
+      .header-cta .btn-primary { padding: 8px 14px; font-size: .78rem; }
+
+      /* セクション余白 */
+      .problem, .features, .crops, .voice, .story, .faq, .contact { padding: 52px 0; }
+      .trust { padding: 24px 0; }
+      .social-proof { padding: 36px 0; }
+      .section-title { font-size: 1.4rem; }
+
+      /* アナウンスバー */
+      .announce { font-size: .74rem; padding: 7px 12px; }
+
+      /* ヒーロー */
+      .hero { padding-bottom: 44px; }
+      .hero-badge { font-size: .72rem; padding: 5px 12px; margin-bottom: 14px; }
+      .hero-title { font-size: 1.65rem; line-height: 1.35; margin-bottom: 12px; }
+      .hero-tagline { font-size: .92rem; margin-bottom: 18px; }
+      .hero-points { gap: 8px; margin-bottom: 24px; }
+      .hero-point { font-size: .86rem; }
+      .hero-point .icon { width: 22px; height: 22px; font-size: .76rem; flex-shrink: 0; }
+      .hero-cta-group { gap: 10px; }
+      .hero-cta-row { flex-direction: column; gap: 10px; }
+      .hero-cta-row .btn { width: 100%; justify-content: center; padding: 15px; font-size: .98rem; }
+      .hero-cta-note { font-size: .72rem; }
+
+      /* 緊急バー */
+      .urgency { padding: 10px 0; }
+      .urgency-inner { flex-direction: column; gap: 8px; }
+      .urgency-text { font-size: .8rem; text-align: center; }
+      .urgency .btn { padding: 8px 16px; font-size: .8rem; }
+
+      /* トラストバッジ */
+      .trust-grid { flex-direction: column; gap: 8px; }
+      .trust-item { width: 100%; padding: 11px 14px; }
+
+      /* 課題 */
       .problem-grid { grid-template-columns: 1fr; }
       .problem-image { display: none; }
-      .trust-grid { gap: 10px; }
-      .trust-item { padding: 10px 14px; }
-      .hero-cta-row { flex-direction: column; }
-      .hero-cta-row .btn { width: 100%; justify-content: center; }
-      .contact-cta-row { flex-direction: column; width: 100%; }
-      .contact-cta-row .btn { width: 100%; }
-      .footer-inner { grid-template-columns: 1fr; gap: 24px; }
-      .footer-nav { flex-wrap: wrap; gap: 16px; }
-      .urgency-inner { gap: 12px; }
+      .problem-list { gap: 10px; }
+      .problem-item { padding: 13px; gap: 10px; }
+
+      /* こだわり */
+      .features-grid { grid-template-columns: 1fr; gap: 14px; }
+      .feature-card { padding: 22px 18px; }
+
+      /* 旬の恵み */
+      .crops-grid { grid-template-columns: 1fr; gap: 14px; }
+      .crop-img { height: 190px; }
+
+      /* 実績 */
+      .proof-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .proof-item { padding: 16px 8px; }
+      .proof-num { font-size: 1.8rem; }
+      .proof-label { font-size: .73rem; }
+
+      /* お客様の声 */
+      .voice-grid { grid-template-columns: 1fr; gap: 14px; }
+      .voice-card { padding: 20px 16px; }
+
+      /* ストーリー */
+      .story-image img { height: 190px; }
+      .story-text { font-size: .88rem; }
+      .story-years { gap: 14px; }
+
+      /* FAQ */
+      .faq-list { margin-top: 28px; gap: 8px; }
+      .faq-q { padding: 15px 16px; }
+      .faq-q-text { font-size: .86rem; gap: 10px; }
+      .faq-q-text .q-badge { width: 24px; height: 24px; font-size: .78rem; }
+      .faq-a p { font-size: .84rem; padding-left: 28px; }
+
+      /* お問い合わせ */
+      .contact-box { padding: 26px 14px; }
+      .contact-title { font-size: 1.25rem; }
+      .contact-sub { font-size: .84rem; margin-bottom: 20px; }
+      .contact-cta-row { flex-direction: column; gap: 10px; width: 100%; }
+      .contact-cta-row .btn { width: 100%; justify-content: center; padding: 15px; font-size: .98rem; }
+      .contact-options { gap: 8px; padding-top: 18px; }
+      .contact-badge { font-size: .74rem; }
+
+      /* フッター */
+      .footer { padding: 32px 0 20px; }
+      .footer-inner { grid-template-columns: 1fr; gap: 16px; }
+      .footer-nav { flex-wrap: wrap; gap: 10px; font-size: .76rem; }
+      .footer-bottom { font-size: .7rem; padding-top: 14px; }
+
+      /* スティッキーCTA */
+      .sticky-cta { padding: 10px 14px; padding-bottom: calc(10px + env(safe-area-inset-bottom)); }
+      .sticky-cta .btn { padding: 13px 6px; font-size: .82rem; }
     }
   </style>
 </head>
 <body>
 
+  <div class="site-header" id="siteHeader">
   <!-- ===== ANNOUNCEMENT BAR ===== -->
-  <div class="announce">🎉 <strong>期間限定キャンペーン：</strong>初回ご注文は<strong>送料無料</strong>！今すぐLINEまたはお電話でご相談ください</div>
+  <div class="announce">🎉 <strong>初回送料無料キャンペーン中！</strong><br class="sp-only">LINEまたはお電話でお気軽にご相談ください</div>
 
   <!-- ===== HEADER ===== -->
-  <header class="header" id="header">
+  <header class="header">
     <div class="container">
       <div class="header-inner">
-        <div class="logo">
-          翠緑農園
-          <span>Suiryoku Farm · Since 1952</span>
-        </div>
+        <div class="logo">翠緑農園<span>Suiryoku Farm · Since 1952</span></div>
         <nav class="header-nav">
           <a href="#features">こだわり</a>
           <a href="#crops">旬の恵み</a>
@@ -906,12 +1020,13 @@
           <a href="#contact">お問い合わせ</a>
         </nav>
         <div class="header-cta">
-          <a href="tel:0120-000-000" class="btn btn-outline btn-sm">📞 電話で相談</a>
-          <a href="#contact" class="btn btn-primary btn-sm">無料で相談する</a>
+          <a href="tel:0120-000-000" class="btn btn-outline btn-sm">📞 電話相談</a>
+          <a href="#contact" class="btn btn-primary btn-sm">無料相談</a>
         </div>
       </div>
     </div>
   </header>
+  </div>
 
   <!-- ===== HERO (FIRST VIEW) ===== -->
   <section class="hero" id="top">
@@ -922,8 +1037,8 @@
         <!-- LEFT: Copy + CTA -->
         <div class="hero-content">
           <div class="hero-badge">🌾 創業70年以上の信頼と実績</div>
-          <h1 class="hero-title">スーパーでは<em>絶対に買えない</em>野菜を<br>明日の食卓へ</h1>
-          <p class="hero-tagline">完全無農薬・収穫翌日直送。土の力が生んだ本当の美味しさを、ご家庭に。</p>
+          <h1 class="hero-title">スーパーでは<br class="sp-only"><em>絶対に買えない</em>野菜を<br class="sp-only">明日の食卓へ</h1>
+          <p class="hero-tagline">完全無農薬・収穫翌日直送。<br class="sp-only">土の力が生んだ本当の美味しさを、ご家庭に。</p>
           <div class="hero-points">
             <div class="hero-point">
               <div class="icon">✅</div>
@@ -947,7 +1062,7 @@
               <a href="https://line.me/R/ti/p/@suiryoku-farm" class="btn btn-line btn-lg">L　LINEで無料相談する</a>
               <a href="tel:0120-000-000" class="btn btn-primary btn-lg">📞 今すぐ電話する</a>
             </div>
-            <p class="hero-cta-note">📌 相談・見積もり無料 ／ 押し売り一切なし ／ 2営業日以内に返信</p>
+            <p class="hero-cta-note">📌 相談・見積もり無料 ／ 押し売りなし<br class="sp-only">2営業日以内に返信</p>
           </div>
         </div>
         <!-- RIGHT: 信頼カード -->
@@ -989,7 +1104,7 @@
   <div class="urgency">
     <div class="container">
       <div class="urgency-inner">
-        <span class="urgency-text">🔥 <strong>今月限定：初回送料無料キャンペーン</strong>実施中！定員になり次第終了します</span>
+        <span class="urgency-text">🔥 <strong>今月限定：初回送料無料！</strong>定員になり次第終了</span>
         <a href="#contact" class="btn">今すぐ申し込む →</a>
       </div>
     </div>
@@ -1035,8 +1150,8 @@
   <section class="problem" id="problem">
     <div class="container">
       <div class="section-label">こんなお悩みはありませんか？</div>
-      <h2 class="section-title">スーパーの野菜に<em>不安を感じている</em>方へ</h2>
-      <p class="section-sub">農薬・添加物・輸送日数——見えないところに潜むリスクを、翠緑農園が解決します。</p>
+      <h2 class="section-title">スーパーの野菜に<br class="sp-only"><em>不安を感じている</em>方へ</h2>
+      <p class="section-sub">農薬・添加物・輸送日数——<br class="sp-only">見えないところに潜むリスクを、翠緑農園が解決します。</p>
       <div class="problem-grid">
         <div class="problem-image fade-up">
           <img src="https://images.unsplash.com/photo-1592924357228-91a4daadcfea?w=800&q=80" alt="新鮮なトマト" loading="lazy" />
@@ -1081,28 +1196,28 @@
       <div class="features-header text-center fade-up">
         <div class="section-label">Our Philosophy</div>
         <h2 class="section-title">翠緑農園の<em>三つのこだわり</em></h2>
-        <p class="section-sub">土を守り、命を育て、食卓に感動を届ける。それが私たちの変わらない使命です。</p>
+        <p class="section-sub">土を守り、命を育て、食卓に感動を届ける。<br class="sp-only">それが私たちの変わらない使命です。</p>
       </div>
       <div class="features-grid">
         <div class="feature-card fade-up">
           <div class="feature-num">01</div>
           <div class="feature-icon">🌿</div>
           <h3>完全無農薬栽培</h3>
-          <p>農薬・化学肥料を一切使用しない自然農法を貫いています。土の微生物が豊かに生きる環境が、野菜本来の甘みと栄養をつくり出します。</p>
+          <p>農薬・化学肥料を一切使用しない自然農法を貫いています。<br class="sp-only">土の微生物が豊かに生きる環境が、野菜本来の甘みと栄養をつくり出します。</p>
           <div class="feature-highlight">✓ 第三者機関認証取得済み</div>
         </div>
         <div class="feature-card fade-up" style="transition-delay:.1s">
           <div class="feature-num">02</div>
           <div class="feature-icon">🚚</div>
           <h3>収穫翌日直送</h3>
-          <p>収穫した翌日に直接お届け。スーパーには出回らない本当の新鮮さを、あなたの食卓まで丁寧に届けます。鮮度が栄養価を決めます。</p>
+          <p>収穫した翌日に直接お届け。<br class="sp-only">スーパーには出回らない本当の新鮮さを、あなたの食卓まで丁寧に届けます。鮮度が栄養価を決めます。</p>
           <div class="feature-highlight">✓ チルド便で全国配送</div>
         </div>
         <div class="feature-card fade-up" style="transition-delay:.2s">
           <div class="feature-num">03</div>
           <div class="feature-icon">♻️</div>
           <h3>循環型農業</h3>
-          <p>堆肥・雨水・太陽光を最大限に活かした持続可能な農業。次世代の子どもたちに豊かな自然を残すことも、私たちの誇りです。</p>
+          <p>堆肥・雨水・太陽光を最大限に活かした持続可能な農業。<br class="sp-only">次世代の子どもたちに豊かな自然を残すことも、私たちの誇りです。</p>
           <div class="feature-highlight">✓ カーボンニュートラル農法</div>
         </div>
       </div>
@@ -1118,7 +1233,7 @@
       <div class="crops-header text-center fade-up">
         <div class="section-label">Seasonal Harvest</div>
         <h2 class="section-title">今月の<em>旬の恵み</em></h2>
-        <p class="section-sub">自然のリズムに従い、旬の時期にだけ収穫。その時期だけの、忘れられない味をお届けします。</p>
+        <p class="section-sub">自然のリズムに従い、旬の時期にだけ収穫。<br class="sp-only">その時期だけの、忘れられない味をお届けします。</p>
       </div>
       <div class="crops-grid">
         <div class="crop-card fade-up">
@@ -1196,12 +1311,12 @@
       <div class="voice-header text-center fade-up">
         <div class="section-label">Customer Voice</div>
         <h2 class="section-title">お客様の<em>リアルな声</em></h2>
-        <p class="section-sub">全国1,200世帯以上のお客様にご愛用いただいています</p>
+        <p class="section-sub">全国1,200世帯以上のお客様に<br class="sp-only">ご愛用いただいています</p>
       </div>
       <div class="voice-grid">
         <div class="voice-card fade-up">
           <div class="voice-stars">★★★★★</div>
-          <p class="voice-text">子どもが野菜を残さず食べるようになりました。トマトの甘さが全然違う。スーパーのトマトには戻れません。</p>
+          <p class="voice-text">子どもが野菜を残さず食べるようになりました。<br class="sp-only">トマトの甘さが全然違う。スーパーのトマトには戻れません。</p>
           <div class="voice-meta">
             <div class="voice-avatar">👩</div>
             <div class="voice-name">
@@ -1212,7 +1327,7 @@
         </div>
         <div class="voice-card fade-up" style="transition-delay:.1s">
           <div class="voice-stars">★★★★★</div>
-          <p class="voice-text">妊娠中から使い始めました。農薬の心配がないので安心して食べられる。産後も続けています。品質に全幅の信頼を置いています。</p>
+          <p class="voice-text">妊娠中から使い始めました。農薬の心配がないので安心して食べられる。<br class="sp-only">産後も続けています。品質に全幅の信頼を置いています。</p>
           <div class="voice-meta">
             <div class="voice-avatar">🤰</div>
             <div class="voice-name">
@@ -1223,7 +1338,7 @@
         </div>
         <div class="voice-card fade-up" style="transition-delay:.2s">
           <div class="voice-stars">★★★★★</div>
-          <p class="voice-text">ギフトで贈ったら大変喜ばれました。翌日直送の人参スティックは来客にも出せる自信作です。定期的に贈り物にしています。</p>
+          <p class="voice-text">ギフトで贈ったら大変喜ばれました。<br class="sp-only">翌日直送の人参スティックは来客にも出せる自信作です。定期的に贈り物にしています。</p>
           <div class="voice-meta">
             <div class="voice-avatar">👨</div>
             <div class="voice-name">
@@ -1245,8 +1360,9 @@
           <div class="section-label story-label">Our Story</div>
           <h2 class="section-title story-title">農園の<em>歩み</em></h2>
           <div class="story-text">
-            1952年、創業者である曾祖父が荒れた土地を耕し始めたこの地で、翠緑農園は生まれました。当時から化学の力に頼らず、土そのものを大切にする農業を続けてきました。<br><br>
-            現在は三代目が受け継ぎ、規模を大きくするよりも一つひとつの野菜と真剣に向き合うことをずっと選び続けています。
+            1952年、創業者である曾祖父が荒れた土地を耕し始めたこの地で、翠緑農園は生まれました。当時から化学の力に頼らず、土そのものを大切にする農業を続けてきました。
+            <br><br>
+            現在は三代目が受け継ぎ、規模を大きくするよりも一つひとつの野菜と真剣に向き合うことを、ずっと選び続けています。
           </div>
           <div class="story-quote">
             <p>「土が喜んでいれば、野菜が喜ぶ。野菜が喜べば、食べる人が笑顔になる。」</p>
@@ -1289,7 +1405,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-a">
-            <p>お試しセット（小）から大家族向けの大容量セットまでご用意しています。まずはLINEかお電話でご希望の量や世帯人数をお知らせください。最適なプランをご提案します。</p>
+            <p>お試しセット（小）から大家族向けの大容量セットまでご用意しています。<br class="sp-only">まずはLINEかお電話でご希望の量や世帯人数をお知らせください。最適なプランをご提案します。</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1298,7 +1414,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-a">
-            <p>はい、いつでも停止・変更・スキップが可能です。長期縛りや違約金は一切ございません。旅行や急な予定変更にも柔軟に対応しますので、ご安心ください。</p>
+            <p>はい、いつでも停止・変更・スキップが可能です。長期縛りや違約金は一切ございません。<br class="sp-only">旅行や急な予定変更にも柔軟に対応しますので、ご安心ください。</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1316,7 +1432,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-a">
-            <p>第三者検査機関による残留農薬検査を定期的に実施し、証明書を発行しています。ご希望の方には証明書のコピーをお送りすることも可能です。農薬ゼロの証拠をしっかりとお見せします。</p>
+            <p>第三者検査機関による残留農薬検査を定期的に実施し、証明書を発行しています。<br class="sp-only">ご希望の方には証明書のコピーをお送りすることも可能です。農薬ゼロの証拠をしっかりとお見せします。</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1325,7 +1441,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-a">
-            <p>はい、ギフトセット（のし・包装対応）や法人向けの大口注文にも対応しています。贈り物の文化に合った高品質な野菜セットをご提案しますので、まずはお気軽にご相談ください。</p>
+            <p>はい、ギフトセット（のし・包装対応）や法人向けの大口注文にも対応しています。<br class="sp-only">贈り物の文化に合った高品質な野菜セットをご提案しますので、まずはお気軽にご相談ください。</p>
           </div>
         </div>
         <div class="faq-item">
@@ -1334,7 +1450,7 @@
             <span class="faq-arrow">▼</span>
           </div>
           <div class="faq-a">
-            <p>現在実施中のキャンペーンは、初回ご注文のみ送料が無料になります（定期便・スポット注文どちらも対象）。定員になり次第終了となりますので、お早めにご連絡ください。</p>
+            <p>現在実施中のキャンペーンは、初回ご注文のみ送料が無料になります（定期便・スポット注文どちらも対象）。<br class="sp-only">定員になり次第終了となりますので、お早めにご連絡ください。</p>
           </div>
         </div>
       </div>
@@ -1347,13 +1463,13 @@
       <div class="contact-box fade-up">
         <div class="contact-badge">🎉 初回送料無料キャンペーン実施中</div>
         <h2 class="contact-title">今すぐ無料でご相談ください</h2>
-        <p class="contact-sub">定期便・スポット注文・ギフトセットなど、どんなご相談もお気軽に。押し売り一切なし。まずはお気軽にどうぞ。</p>
+        <p class="contact-sub">定期便・スポット注文・ギフトセットなど、<br class="sp-only">どんなご相談もお気軽に。<br class="sp-only">押し売り一切なし。まずはお気軽にどうぞ。</p>
         <div class="contact-cta-group">
           <div class="contact-cta-row">
             <a href="https://line.me/R/ti/p/@suiryoku-farm" class="btn btn-line btn-lg">L　LINEで今すぐ相談する（無料）</a>
             <a href="tel:0120-000-000" class="btn btn-primary btn-lg">📞 0120-000-000</a>
           </div>
-          <p style="font-size:.82rem;color:var(--text-light)">📌 LINEなら24時間メッセージ受付 ／ 電話受付：9:00〜17:00（水曜定休）</p>
+          <p style="font-size:.82rem;color:var(--text-light)">📌 LINE：24時間受付 ／ 電話：9:00〜17:00（水曜定休）</p>
         </div>
         <div class="contact-options">
           <div class="contact-option">
@@ -1413,10 +1529,24 @@
 
   <!-- ===== SCRIPTS ===== -->
   <script>
-    // Header scroll effect
-    const header = document.getElementById('header');
+    // Site-header scroll effect
+    const siteHeader = document.getElementById('siteHeader');
+
+    function updateHeroPadding() {
+      const h = siteHeader.offsetHeight;
+      document.querySelector('.hero').style.paddingTop = (h + 24) + 'px';
+    }
+    updateHeroPadding();
+    window.addEventListener('resize', updateHeroPadding, { passive: true });
+
     window.addEventListener('scroll', () => {
-      header.classList.toggle('scrolled', window.scrollY > 50);
+      const scrolled = window.scrollY > 20;
+      siteHeader.classList.toggle('scrolled', scrolled);
+      if (scrolled) {
+        document.querySelector('.hero').style.paddingTop = (60 + 24) + 'px';
+      } else {
+        updateHeroPadding();
+      }
     }, { passive: true });
 
     // FAQ toggle
@@ -1430,12 +1560,9 @@
     // Scroll animations
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
+        if (entry.isIntersecting) entry.target.classList.add('visible');
       });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
 
     // Sticky CTA: show after scroll past hero
@@ -1452,7 +1579,7 @@
         const target = document.querySelector(a.getAttribute('href'));
         if (target) {
           e.preventDefault();
-          const offset = 72;
+          const offset = siteHeader.offsetHeight + 8;
           window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
         }
       });
